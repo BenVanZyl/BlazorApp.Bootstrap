@@ -1,5 +1,10 @@
 ﻿@page "/about"
+@using BlazorApp.Bootstrap.Business.Queries
+@using BlazorApp.Bootstrap.Data.Domain
 @using BlazorApp.Bootstrap.Data.Dtos
+@using BlazorApp.Bootstrap.Data.Infrastructure
+
+@inject QueryRunner Queries
 
 <h3>About</h3>
 
@@ -11,11 +16,33 @@
             <div class="card shadow p-3 mb-5 bg-body rounded">
                 <div class="card-header">Activities</div>
                 <div class="card-body">
+                    <button class="btn btn-primary" @onclick="LoadClick">Load</button>
                     @if (Activities != null && Activities.Count > 0)
                     {
                         <div class="alert alert-info" role="alert">
                             Data available.
                         </div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Id</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Day</th>
+                                    <th scope="col">Type</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach(var v in Activities)
+                                {
+                                <tr>
+                                    <th scope="row">@v.Id</th>
+                                    <td>@v.ActivityDate</td>
+                                    <td>@v.ActivityDay</td>
+                                    <td>@v.ActivityType</td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
                     }
                     else
                     {
@@ -41,6 +68,13 @@ else
     </div>
 }
 
+@if (!string.IsNullOrEmpty(ErrorMessage))
+{
+    <div class="alert alert-danger" role="alert">
+        Error! @ErrorMessage
+    </div>
+}
+
 @code {
 
     private enum PageActions
@@ -52,4 +86,21 @@ else
 
 
     private List<ActivityDto>? Activities { get; set; } = null;
+
+    private string ErrorMessage { get; set; } = string.Empty;
+
+    private async void LoadClick()
+    {
+        try
+        {
+            ErrorMessage = string.Empty;
+
+            Activities = await Queries.Get<Activity, ActivityDto>(new GetActivitiesQuery());
+
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = ex.Message;
+        }
+    }
 }

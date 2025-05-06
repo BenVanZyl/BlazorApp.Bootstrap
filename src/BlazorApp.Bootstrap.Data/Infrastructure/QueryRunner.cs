@@ -5,6 +5,8 @@ using BlazorApp.Bootstrap.Data.Infrastructure.QueryResults;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
+// TODO: Move to SnowStorm component
+
 namespace BlazorApp.Bootstrap.Data.Infrastructure
 {
     public class QueryRunner(ILogger<QueryRunner> logger, DataContext dbcontext, IQueryableProvider queryableProvider, IMapper mapper)
