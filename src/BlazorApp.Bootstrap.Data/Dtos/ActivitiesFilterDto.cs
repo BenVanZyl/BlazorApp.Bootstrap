@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlazorApp.Bootstrap.Business.Queries
+namespace BlazorApp.Bootstrap.Data.Dtos
 {
-    internal class GetActivityTypesQuery
+    public class ActivitiesFilterDto
     {
+        public long ActivityTypeId { get; set; }
     }
 }
