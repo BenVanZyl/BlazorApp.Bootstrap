@@ -1,0 +1,174 @@
+﻿@page "/activities"
+@using BlazorApp.Bootstrap.Business.Queries
+@using BlazorApp.Bootstrap.Data.Domain
+@using BlazorApp.Bootstrap.Data.Dtos
+@using BlazorApp.Bootstrap.Data.Infrastructure
+
+@inject QueryRunner Queries
+
+<h3>Activities</h3>
+
+@if (PageAction == PageActions.List)
+{
+    <div class="row">
+
+        <div class="col-lg-8 col-md-8 col-sm-12">
+            <div class="card shadow p-3 mb-5 bg-body rounded">
+                <div class="card-header">Activities</div>
+                <div class="card-body ">
+
+                    <InputSelect class="form-select form-select-sm" aria-label="Filter by Activity Type" @bind-value="Filter.ActivityTypeId">
+                        @if (ActivityTypes != null)
+                            foreach (var item in ActivityTypes)
+                            {
+                                @if (item.Value == Filter.ActivityTypeId.ToString())
+                                {
+                                    <option class="" value="@item.Value.ToString()" selected>@item.DisplayText</option>
+                                }
+                                else
+                                {
+                                    <option class="" value="@item.Value.ToString()">@item.DisplayText</option>
+                                }
+                            }
+                    </InputSelect>
+                    <button class="btn btn-primary" @onclick="LoadClick">Load</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-8 col-md-8 col-sm-12">
+        <div class="card p-3 mb-5 bg-body rounded">
+            <div class="card-header">Activities</div>
+            <div class="card-body">
+
+                @if (Activities != null && Activities.Count > 0)
+                {
+                    <div class="alert alert-info" role="alert">
+                        Data available.
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Id</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Day</th>
+                                <th scope="col">Type</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var v in Activities)
+                            {
+                                <tr>
+                                    <th scope="row">@v.Id</th>
+                                    <td>@v.ActivityDate</td>
+                                    <td>@v.ActivityDay</td>
+                                    <td>@v.ActivityType</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <div class="alert alert-warning" role="alert">
+                        No data available.
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+}
+else if (PageAction == PageActions.Edit)
+{
+
+}
+else
+{
+    <div class="alert alert-warning" role="alert">
+        Error! Action not available!
+    </div>
+}
+
+@if (!string.IsNullOrEmpty(ErrorMessage))
+{
+    <div class="alert alert-danger" role="alert">
+        Error! @ErrorMessage
+    </div>
+}
+
+@code {
+
+    private enum PageActions
+    {
+        List,
+        Edit
+    }
+    private PageActions PageAction { get; set; } = PageActions.List;
+
+
+    private List<ActivityDto>? Activities { get; set; } = null;
+
+    private List<SelectLitsDto>? ActivityTypes { get; set; } = null;
+
+    private ActivitiesFilterDto Filter { get; set; } = new();
+
+    private string ErrorMessage { get; set; } = string.Empty;
+
+    // protected override async Task OnAfterRenderAsync(bool firstRender)
+    // {
+    //     if (firstRender)
+    //         return;
+
+    //     //await Get();
+    // }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        await GetFilterOptions();
+        await Get();
+    }
+
+    private async void LoadClick()
+    {
+        await Get();
+    }
+
+    private async Task Get()
+    {
+        try
+        {
+            ErrorMessage = string.Empty;
+
+            Activities = await Queries.Get<Activity, ActivityDto>(new GetActivitiesQuery());
+
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = ex.Message;
+        }
+    }
+
+    private async Task GetFilterOptions()
+    {
+        try
+        {
+            ErrorMessage = string.Empty;
+
+            ActivityTypes = await Queries.Get<ActivityType, SelectLitsDto>(new GetActivityTypesQuery());
+
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = ex.Message;
+        }        
+    }
+}
