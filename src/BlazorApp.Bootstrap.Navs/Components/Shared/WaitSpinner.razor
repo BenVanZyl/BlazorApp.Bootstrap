@@ -1,0 +1,57 @@
+﻿<!-- Modal -->
+
+<div class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@TitleText</h5>
+               @*  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> *@
+            </div>
+            <div class="modal-body">
+                <div class="d-flex align-items-center">
+                    <strong role="status">@DisplayText</strong>
+                    <div class="spinner-border ms-auto" aria-hidden="true"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <p class="small">Refresh this web page to cancel the process or click go home</p>
+                <NavLink class="btn btn-secondary" href="" Match="NavLinkMatch.All">
+                    <span class="" aria-hidden="true"></span> Go Home
+                </NavLink>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+<span>@Text...</span> *@
+
+@code {
+    [Parameter]
+    public string TitleText { get; set; } = "Please wait";
+
+    [Parameter]
+    public string DisplayText { get; set; } = "Loading...";
+
+    [Parameter]
+    public bool Hidden { get; set; } = false;
+
+    [Parameter]
+    public bool IsLoading
+    {
+        get
+        { return !Hidden; }
+        set
+        { Hidden = !value; }
+    }
+
+    public void Show()
+    {
+        Hidden = false;
+    }
+
+    public void Hide()
+    {
+        Hidden = true;
+    }
+}

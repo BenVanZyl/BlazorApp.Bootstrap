@@ -8,6 +8,9 @@ namespace BlazorApp.Bootstrap.Data.Dtos
 {
     public class ActivitiesFilterDto
     {
-        public long ActivityTypeId { get; set; }
+        public long? ActivityTypeId { get; set; }
+
+        public int? Year { get; set; }
+        public int? Month { get; set; }
     }
 }

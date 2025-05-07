@@ -3,10 +3,19 @@
 @using BlazorApp.Bootstrap.Data.Domain
 @using BlazorApp.Bootstrap.Data.Dtos
 @using BlazorApp.Bootstrap.Data.Infrastructure
+@using BlazorApp.Bootstrap.Navs.Components.Shared
 
 @inject QueryRunner Queries
 
 <h3>Activities</h3>
+
+@if (ShowModal)
+{
+    <div class="spinner-grow" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+}
+<WaitSpinner></WaitSpinner>
 
 @if (PageAction == PageActions.List)
 {
@@ -18,21 +27,12 @@
                 <div class="card-body ">
 
                     <InputSelect class="form-select form-select-sm" aria-label="Filter by Activity Type" @bind-value="Filter.ActivityTypeId">
-                        @if (ActivityTypes != null)
-                            foreach (var item in ActivityTypes)
-                            {
-                                @if (item.Value == Filter.ActivityTypeId.ToString())
-                                {
-                                    <option class="" value="@item.Value.ToString()" selected>@item.DisplayText</option>
-                                }
-                                else
-                                {
-                                    <option class="" value="@item.Value.ToString()">@item.DisplayText</option>
-                                }
-                            }
+                        <DropDownOptions ListOptions="ActivityTypes"></DropDownOptions>
                     </InputSelect>
-                    <button class="btn btn-primary" @onclick="LoadClick">Load</button>
 
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-primary" @onclick="LoadClick">Load</button>
                 </div>
             </div>
         </div>
@@ -45,9 +45,6 @@
 
                 @if (Activities != null && Activities.Count > 0)
                 {
-                    <div class="alert alert-info" role="alert">
-                        Data available.
-                    </div>
                     <table class="table">
                         <thead>
                             <tr>
@@ -80,10 +77,6 @@
         </div>
     </div>
 
-
-
-
-
 }
 else if (PageAction == PageActions.Edit)
 {
@@ -112,6 +105,8 @@ else
     }
     private PageActions PageAction { get; set; } = PageActions.List;
 
+    private bool ShowModal { get; set; } = true;
+    private string ErrorMessage { get; set; } = string.Empty;
 
     private List<ActivityDto>? Activities { get; set; } = null;
 
@@ -119,7 +114,7 @@ else
 
     private ActivitiesFilterDto Filter { get; set; } = new();
 
-    private string ErrorMessage { get; set; } = string.Empty;
+
 
     // protected override async Task OnAfterRenderAsync(bool firstRender)
     // {
@@ -131,10 +126,10 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        await base.OnInitializedAsync();
 
         await GetFilterOptions();
-        await Get();
+        //await Get();
+        await base.OnInitializedAsync();
     }
 
     private async void LoadClick()
@@ -146,14 +141,21 @@ else
     {
         try
         {
+            await Task.Delay(2000);
+
+            ShowModal = true;
             ErrorMessage = string.Empty;
 
-            Activities = await Queries.Get<Activity, ActivityDto>(new GetActivitiesQuery());
+            Activities = await Queries.Get<Activity, ActivityDto>(new GetActivitiesQuery(Filter));
 
         }
         catch (Exception ex)
         {
             ErrorMessage = ex.Message;
+        }
+        finally
+        {
+            ShowModal = false;
         }
     }
 
@@ -161,6 +163,7 @@ else
     {
         try
         {
+            ShowModal = true;
             ErrorMessage = string.Empty;
 
             ActivityTypes = await Queries.Get<ActivityType, SelectLitsDto>(new GetActivityTypesQuery());
@@ -169,6 +172,10 @@ else
         catch (Exception ex)
         {
             ErrorMessage = ex.Message;
-        }        
+        }
+        finally
+        {
+            ShowModal = false;
+        }
     }
 }

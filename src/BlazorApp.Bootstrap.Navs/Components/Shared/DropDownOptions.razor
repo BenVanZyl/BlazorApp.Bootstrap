@@ -1,0 +1,25 @@
+﻿@using BlazorApp.Bootstrap.Data.Dtos
+
+@if (!string.IsNullOrEmpty(FirstRowText) && !string.IsNullOrEmpty(FirstRowValue))
+{
+    <option class="" value="@FirstRowValue">@FirstRowText</option>
+}
+
+@if (ListOptions != null)
+    foreach (var item in ListOptions)
+    {
+        <option class="" value="@item.Value">@item.DisplayText</option>
+    }
+
+@code {
+    [Parameter]
+    public string FirstRowText { get; set; } = "Please select";
+
+    [Parameter]
+    public string FirstRowValue { get; set; } = "-1";
+
+    [Parameter]
+    public List<SelectLitsDto>? ListOptions { get; set; } = null;
+
+
+}
