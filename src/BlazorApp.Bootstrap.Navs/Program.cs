@@ -1,7 +1,5 @@
 using BlazorApp.Bootstrap.Data.Infrastructure;
 using BlazorApp.Bootstrap.Navs.Components;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 

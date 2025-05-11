@@ -1,4 +1,7 @@
 ﻿@page "/activities"
+@rendermode @(new InteractiveServerRenderMode(prerender: false))
+@attribute [StreamRendering]
+
 @using BlazorApp.Bootstrap.Business.Queries
 @using BlazorApp.Bootstrap.Data.Domain
 @using BlazorApp.Bootstrap.Data.Dtos
@@ -33,6 +36,8 @@
                 </div>
                 <div class="card-footer">
                     <button class="btn btn-primary" @onclick="LoadClick">Load</button>
+                    <button class="btn btn-primary" @onclick="RunSyncClick">Read Sync</button>
+                    <button class="btn btn-primary" @onclick="RunAsyncClick">Read Async</button>
                 </div>
             </div>
         </div>
@@ -178,4 +183,45 @@ else
             ShowModal = false;
         }
     }
+
+    private async void RunSyncClick()
+    {
+        try
+        {
+            for (int i = 0; i < 1000; i++)
+            {
+                Activities = await Queries.Get<Activity, ActivityDto>(new GetActivitiesQuery(Filter));
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = ex.Message;
+        }
+
+    }
+
+    private async void RunAsyncClick()
+    {
+        try
+        {
+            int maxParallelism = 2;
+            int iterations = 1000;
+            var stopwatch = new System.Diagnostics.Stopwatch();
+            stopwatch.Start();
+
+            ParallelOptions options = new() { MaxDegreeOfParallelism = maxParallelism };
+            await Parallel.ForAsync(1, iterations, options, async (i, ct) =>
+            {
+                Activities = await Queries.Get<Activity, ActivityDto>(new GetActivitiesQuery(Filter));
+            });
+            stopwatch.Stop();
+            double totalSeconds = stopwatch.Elapsed.TotalSeconds;
+            
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = ex.Message;
+        }
+    }
 }
+

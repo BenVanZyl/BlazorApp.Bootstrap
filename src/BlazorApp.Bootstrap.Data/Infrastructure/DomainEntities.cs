@@ -16,4 +16,9 @@ namespace BlazorApp.Bootstrap.Data.Infrastructure.DomainEntities
     {
         public long Id { get; set; }
     }
+
+    public class DomainEntityWithIdString : DomainEntity
+    {
+        public string Id { get; set; } = string.Empty;
+    }
 }
