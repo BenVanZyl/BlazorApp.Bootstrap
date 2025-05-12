@@ -20,7 +20,7 @@ namespace BlazorApp.Bootstrap.Data.Infrastructure
                 {
                     o.UseSqlServer(connectionString);
                 },
-                ServiceLifetime.Singleton
+                ServiceLifetime.Scoped
             );
         }
     }
