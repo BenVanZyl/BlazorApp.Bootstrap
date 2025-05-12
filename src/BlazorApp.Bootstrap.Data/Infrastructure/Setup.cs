@@ -19,9 +19,8 @@ namespace BlazorApp.Bootstrap.Data.Infrastructure
             services.AddDbContextFactory<DataContext>(o =>
                 {
                     o.UseSqlServer(connectionString);
-
                 },
-                ServiceLifetime.Scoped
+                ServiceLifetime.Singleton
             );
         }
     }

@@ -12,13 +12,7 @@
 
 <h3>Activities</h3>
 
-@if (ShowModal)
-{
-    <div class="spinner-grow" role="status">
-        <span class="visually-hidden">Loading...</span>
-    </div>
-}
-<WaitSpinner></WaitSpinner>
+<WaitSpinner @ref="_isLoadingRef" IsLoading="false"></WaitSpinner>
 
 @if (PageAction == PageActions.List)
 {
@@ -42,6 +36,19 @@
             </div>
         </div>
     </div>
+
+    @if (!string.IsNullOrEmpty(statusMessage))
+    {
+        <div class="alert alert-dark">
+            @statusMessage
+        </div>
+    }
+    @if (!string.IsNullOrEmpty(ErrorMessage))
+    {
+        <div class="alert alert-danger" role="alert">
+            Error! @ErrorMessage
+        </div>
+    }
 
     <div class="col-lg-8 col-md-8 col-sm-12">
         <div class="card p-3 mb-5 bg-body rounded">
@@ -94,12 +101,7 @@ else
     </div>
 }
 
-@if (!string.IsNullOrEmpty(ErrorMessage))
-{
-    <div class="alert alert-danger" role="alert">
-        Error! @ErrorMessage
-    </div>
-}
+
 
 @code {
 
@@ -110,8 +112,11 @@ else
     }
     private PageActions PageAction { get; set; } = PageActions.List;
 
-    private bool ShowModal { get; set; } = true;
+    private WaitSpinner _isLoadingRef = null!;
+
+    private bool isLoading { get; set; } = true;
     private string ErrorMessage { get; set; } = string.Empty;
+    private string statusMessage { get; set; } = string.Empty;
 
     private List<ActivityDto>? Activities { get; set; } = null;
 
@@ -146,21 +151,24 @@ else
     {
         try
         {
+            SetStatusMessage();
+            IsLoadingShow();
+
             await Task.Delay(2000);
 
-            ShowModal = true;
             ErrorMessage = string.Empty;
 
             Activities = await Queries.Get<Activity, ActivityDto>(new GetActivitiesQuery(Filter));
+            StateHasChanged();
 
         }
         catch (Exception ex)
         {
-            ErrorMessage = ex.Message;
+            SetErrorMessage(ex.Message);
         }
         finally
         {
-            ShowModal = false;
+            IsLoadingHide();
         }
     }
 
@@ -168,34 +176,74 @@ else
     {
         try
         {
-            ShowModal = true;
+            SetStatusMessage();
+            IsLoadingShow();
             ErrorMessage = string.Empty;
 
             ActivityTypes = await Queries.Get<ActivityType, SelectLitsDto>(new GetActivityTypesQuery());
+            StateHasChanged();
 
         }
         catch (Exception ex)
         {
-            ErrorMessage = ex.Message;
+            SetErrorMessage(ex.Message);
         }
         finally
         {
-            ShowModal = false;
+            IsLoadingHide();
         }
+    }
+
+    private void IsLoadingShow()
+    {
+        if (_isLoadingRef != null)
+            _isLoadingRef.Show();
+    }
+
+    private void IsLoadingHide()
+    {
+        if (_isLoadingRef != null)
+            _isLoadingRef.Hide();
+    }
+
+    private void SetStatusMessage(string message = "")
+    {
+        if (string.IsNullOrEmpty(message))
+            ErrorMessage = message;
+
+        statusMessage = message;
+        StateHasChanged();
+    }
+
+    private void SetErrorMessage(string message = "")
+    {
+        ErrorMessage = message;
+        StateHasChanged();
     }
 
     private async void RunSyncClick()
     {
         try
         {
+            SetStatusMessage();
+            IsLoadingShow();
+            int counter = 0;
             for (int i = 0; i < 1000; i++)
             {
+                counter = i;
                 Activities = await Queries.Get<Activity, ActivityDto>(new GetActivitiesQuery(Filter));
+                SetStatusMessage($"processed iteration #{counter}.");
             }
+            SetStatusMessage($"Done! iterations={counter}.");
+
         }
         catch (Exception ex)
         {
-            ErrorMessage = ex.Message;
+            SetErrorMessage(ex.Message);
+        }
+        finally
+        {
+            IsLoadingHide();
         }
 
     }
@@ -204,23 +252,34 @@ else
     {
         try
         {
+            SetStatusMessage();
+            IsLoadingShow();
             int maxParallelism = 2;
-            int iterations = 1000;
+            int iterations = 4;
+
+            SetStatusMessage($"running async with {iterations} iterations on {maxParallelism} threads");
+
             var stopwatch = new System.Diagnostics.Stopwatch();
             stopwatch.Start();
 
             ParallelOptions options = new() { MaxDegreeOfParallelism = maxParallelism };
             await Parallel.ForAsync(1, iterations, options, async (i, ct) =>
             {
-                Activities = await Queries.Get<Activity, ActivityDto>(new GetActivitiesQuery(Filter));
+                //var temp = await Queries.Get<Activity, ActivityDto>(new GetActivitiesQuery(Filter));
+                var temp = await Queries.Get(new GetActivitiesQuery(Filter));
             });
+
             stopwatch.Stop();
             double totalSeconds = stopwatch.Elapsed.TotalSeconds;
-            
+            SetStatusMessage($"Done. {totalSeconds} seconds to complete {iterations} iterations.");
         }
         catch (Exception ex)
         {
-            ErrorMessage = ex.Message;
+            SetErrorMessage(ex.Message);
+        }
+        finally
+        {
+            IsLoadingHide();
         }
     }
 }

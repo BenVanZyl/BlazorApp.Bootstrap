@@ -56,7 +56,6 @@ namespace BlazorApp.Bootstrap.Data.Infrastructure
 
         public async Task<List<T>> Get<T>(IQueryResultList<T> query) where T : class, IDomainEntity
         {
-            
             try
             {
                 return await query.Get(_queryableProvider).ToListAsync();
@@ -72,8 +71,8 @@ namespace BlazorApp.Bootstrap.Data.Infrastructure
         {
             try
             {
-                var queryable = query.Get(_queryableProvider).ProjectTo<TDto>(_mapper.ConfigurationProvider);
-                return await queryable.ToListAsync();
+                var queryable = await query.Get(_queryableProvider).ProjectTo<TDto>(_mapper.ConfigurationProvider).ToListAsync();
+                return queryable;
             }
             catch (Exception ex)
             {

@@ -28,7 +28,9 @@ namespace BlazorApp.Bootstrap.Data.Domain
 
         public static async Task<Activity> Create(ActivityDto data)
         {
-            throw new NotImplementedException();
+            var newItem = new Activity();
+            newItem.Save(data);
+            return newItem; 
         }
 
         public void Save(ActivityDto data)
