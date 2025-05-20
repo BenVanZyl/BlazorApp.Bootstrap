@@ -13,12 +13,12 @@ namespace BlazorApp.Bootstrap.Data.Mapping
     {
         public MappingProfiles()
         {
-            CreateMap<ActivityType, SelectLitsDto>()
+            CreateMap<Region, SelectLitsDto>()
                 .ForMember(d => d.Value, m => m.MapFrom(c => c.Id.ToString()))
-                .ForMember(d => d.DisplayText, m => m.MapFrom(c => c.Name));
+                .ForMember(d => d.DisplayText, m => m.MapFrom(c => c.RegionName));
 
-            CreateMap<Activity, ActivityDto>()
-                .ForMember(d => d.ActivityType, m => m.MapFrom(c => c.ActivityType.Name));
+            //CreateMap<Activity, ActivityDto>()
+            //    .ForMember(d => d.ActivityType, m => m.MapFrom(c => c.ActivityType.Name));
         }
     }
 }

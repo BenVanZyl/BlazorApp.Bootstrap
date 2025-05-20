@@ -20,7 +20,7 @@ namespace BlazorApp.Bootstrap.Data.Domain
         public string? Notes { get; set; }
 
         [ForeignKey("ActivityTypeId")]
-        public ActivityType ActivityType { get; private set; }
+        public Region ActivityType { get; private set; }
         
         public DateTime CreatedOn { get; private set; }
         

@@ -9,7 +9,6 @@
 
   <ItemGroup>
     <None Remove="appsettings.json" />
-    <None Remove="Scripts\01_DbObjects\01_Tables\20231213_0100_WeatherReport.sql" />
     <None Remove="Scripts\01_DbObjects\01_Tables\20231213_0200_WeatherData.sql" />
     <None Remove="Scripts\02_Data\All\20230523_0100_Regions.sql" />
   </ItemGroup>
@@ -21,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Scripts\01_DbObjects\01_Tables\20231213_0100_WeatherReport.sql" />
+    <EmbeddedResource Include="Scripts\01_DbObjects\01_Tables\20231213_0010_Region.sql" />
     <EmbeddedResource Include="Scripts\01_DbObjects\01_Tables\20231213_0200_WeatherData.sql" />
     <EmbeddedResource Include="Scripts\02_Data\All\20230523_0100_Regions.sql" />
   </ItemGroup>

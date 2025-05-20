@@ -12,4 +12,10 @@
         Success,
         Error
     }
+
+    public enum PageActions
+    {
+        List,
+        Edit
+    }
 }

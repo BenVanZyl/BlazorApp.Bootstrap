@@ -1,0 +1,73 @@
+﻿@page "/weather-forecasts"
+@rendermode @(new InteractiveServerRenderMode(prerender: false))
+@attribute [StreamRendering]
+
+@using BlazorApp.Bootstrap.Data.Domain
+@using BlazorApp.Bootstrap.Data.Dtos
+@using BlazorApp.Bootstrap.Data.Infrastructure
+@using BlazorApp.Bootstrap.Business.Queries
+@using BlazorApp.Bootstrap.Navs.Components.Shared
+
+@inject QueryRunner Queries
+
+<h3>Weather Forecasts</h3>
+
+<WaitSpinner @ref="IsLoadingRef" IsLoading="false"></WaitSpinner>
+
+<div class="row">
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="card shadow p-3 mb-5 bg-body rounded">
+            <div class="card-header">Regions</div>
+            <div class="card-body ">
+
+                <InputSelect class="form-select form-select-sm" aria-label="Filter by Activity Type" @bind-value="SelectedRegionId">
+                    <DropDownOptions ListOptions="Regions"></DropDownOptions>
+                </InputSelect>
+
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-primary" @onclick="EditClick">Edit</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="card shadow p-3 mb-5 bg-body rounded">
+            <div class="card-header">Detail</div>
+            <div class="card-body ">
+                <EditForm>
+
+                </EditForm>
+            </div>
+            <div class="card-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private WaitSpinner IsLoadingRef = null!;
+
+    private List<SelectLitsDto> Regions { get; set; } = new List<SelectLitsDto>();
+
+    private string SelectedRegionId { get; set; } = "-1";
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetFilterOptions();
+        //await Get();
+        await base.OnInitializedAsync();
+    }
+
+    private async Task GetFilterOptions()
+    {
+        Regions = await Queries.Get<Region, SelectLitsDto>(new GetRegionsQuery());  
+    }
+
+    private async Task EditClick()
+    {
+        
+    }
+
+}

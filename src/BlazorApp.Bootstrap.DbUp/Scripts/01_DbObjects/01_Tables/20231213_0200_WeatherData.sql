@@ -3,7 +3,7 @@ BEGIN
 	CREATE TABLE dbo.WeatherData
 	(
 		Id			bigint Identity NOT NULL,
-		ReportId	bigint NOT NULL FOREIGN KEY REFERENCES WeatherReport (id),
+		RegionId	bigint NOT NULL FOREIGN KEY REFERENCES dbo.Region (id),
 		ForecastDate date NOT NULL,
 		TemperatureC int  NOT NULL,
 		Summary		varchar(255) NULL,
