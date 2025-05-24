@@ -177,7 +177,7 @@ else
             IsLoadingShow();
             ErrorMessage = string.Empty;
 
-            ActivityTypes = await Queries.Get<Region, SelectLitsDto>(new GetRegionsQuery());
+            ActivityTypes = await Queries.Get<ActivityType, SelectLitsDto>(new GetActivityTypesQuery());
             StateHasChanged();
 
         }
