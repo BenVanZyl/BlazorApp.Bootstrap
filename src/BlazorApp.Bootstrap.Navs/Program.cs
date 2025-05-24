@@ -1,4 +1,7 @@
+using BlazorApp.Bootstrap.Data.Infrastructure;
 using BlazorApp.Bootstrap.Navs.Components;
+using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace BlazorApp.Bootstrap.Navs
 {
@@ -11,6 +14,13 @@ namespace BlazorApp.Bootstrap.Navs
             // Add services to the container.
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
+
+            // add data
+            string dataConnectionString = builder.Configuration.GetConnectionString("Database") ?? throw new NullReferenceException("Missing Data connection string!");
+            builder.Services.AddSnowStorm(dataConnectionString);
+
+            // commands - mediatR
+            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
             var app = builder.Build();
 
