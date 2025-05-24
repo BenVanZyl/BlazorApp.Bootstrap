@@ -2,6 +2,7 @@
 @rendermode @(new InteractiveServerRenderMode(prerender: false))
 @attribute [StreamRendering]
 
+@using BlazorApp.Bootstrap.Business
 @using BlazorApp.Bootstrap.Business.Queries
 @using BlazorApp.Bootstrap.Data.Domain
 @using BlazorApp.Bootstrap.Data.Dtos
@@ -105,11 +106,7 @@ else
 
 @code {
 
-    private enum PageActions
-    {
-        List,
-        Edit
-    }
+    
     private PageActions PageAction { get; set; } = PageActions.List;
 
     private WaitSpinner _isLoadingRef = null!;

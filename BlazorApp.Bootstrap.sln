@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorApp.Bootstrap.Navs", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorApp.Bootstrap.Data", "src\BlazorApp.Bootstrap.Data\BlazorApp.Bootstrap.Data.csproj", "{8EE9A393-1A04-404A-BCC0-E7FC64F47CDC}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Main", "Main", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".main", ".main", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
 		LICENSE = LICENSE
@@ -15,6 +15,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Main", "Main", "{02EA681E-C
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorApp.Bootstrap.Business", "src\BlazorApp.Bootstrap.Business\BlazorApp.Bootstrap.Business.csproj", "{244C45F4-0659-4EE5-A6A8-B13BAE46F3F7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorApp.Bootstrap.DbUp", "src\BlazorApp.Bootstrap.DbUp\BlazorApp.Bootstrap.DbUp.csproj", "{007372D6-56CB-4F57-82D5-8932106EADCB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorApp.Bootstrap.Testing", "src\BlazorApp.Bootstrap.Testing\BlazorApp.Bootstrap.Testing.csproj", "{EA7F0B34-3AB7-4C5E-8792-80397E9AD25E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{53B23501-8F49-4DF1-ACCE-7BD4530F0933}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{64DF9123-DD38-4088-A765-72A02FB71081}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,9 +42,21 @@ Global
 		{244C45F4-0659-4EE5-A6A8-B13BAE46F3F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{244C45F4-0659-4EE5-A6A8-B13BAE46F3F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{244C45F4-0659-4EE5-A6A8-B13BAE46F3F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{007372D6-56CB-4F57-82D5-8932106EADCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{007372D6-56CB-4F57-82D5-8932106EADCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{007372D6-56CB-4F57-82D5-8932106EADCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{007372D6-56CB-4F57-82D5-8932106EADCB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA7F0B34-3AB7-4C5E-8792-80397E9AD25E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA7F0B34-3AB7-4C5E-8792-80397E9AD25E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA7F0B34-3AB7-4C5E-8792-80397E9AD25E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA7F0B34-3AB7-4C5E-8792-80397E9AD25E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{007372D6-56CB-4F57-82D5-8932106EADCB} = {53B23501-8F49-4DF1-ACCE-7BD4530F0933}
+		{EA7F0B34-3AB7-4C5E-8792-80397E9AD25E} = {64DF9123-DD38-4088-A765-72A02FB71081}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2F2DA5CE-4B28-4A6C-9AF2-402AF16DF9C2}

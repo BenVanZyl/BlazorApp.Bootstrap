@@ -1,4 +1,5 @@
-﻿        <!-- Sidebar -->
+﻿@using BlazorApp.Bootstrap.Navs.Components.Shared
+<!-- Sidebar -->
 <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
     <div class="container-fluid">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarNav" aria-controls="sidebarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -7,16 +8,21 @@
         <div class="position-sticky " id="sidebarNav">
             <ul class="nav flex-column  nav-underline">
                 <li class="nav-item">
-                    <a class="nav-link active" href="#">Dashboard</a>
+                    <a class="nav-link" @onclick="DashboardOnclick">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Settings</a>
+                    <a class="nav-link" @onclick="SettingsOnclick">Settings</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Profile</a>
+                    <a class="nav-link" @onclick="ProfileOnclick">Profile</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Help</a>
+                    <a class="nav-link" @onclick="HelpOnclick">Help</a>
+                </li>
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="weather-forecasts" Match="NavLinkMatch.All">
+                        <span class="" aria-hidden="true"></span> Weather Forecasts
+                    </NavLink>
                 </li>
                 <li class="nav-item">
                     <NavLink class="nav-link" href="activities" Match="NavLinkMatch.All">
@@ -32,8 +38,28 @@
         </div>
     </div>
 </nav>
-
+<PopupMessages @ref="PopupMessages" Title="NavBarSide popup"></PopupMessages>
 
 @code {
+    private PopupMessages PopupMessages = null!;
 
+    private void DashboardOnclick()
+    {
+        PopupMessages?.Show("Something flashy goes here or on a special page!", "Dashboard");
+    }
+
+    private void SettingsOnclick()
+    {
+        PopupMessages?.Show("Settings? Nothing for you to view or change.", "Settings");
+    }
+
+    private void ProfileOnclick()
+    {
+        PopupMessages?.Show("Maybe your profile... we will see....", "Profile");
+    }
+
+    private void HelpOnclick()
+    {
+        PopupMessages?.Show("Help? Good luck with that one.  Maybe try to read some code.", "Help");
+    }
 }

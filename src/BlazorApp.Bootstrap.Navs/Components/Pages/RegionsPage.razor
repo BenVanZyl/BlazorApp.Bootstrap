@@ -1,0 +1,184 @@
+﻿@page "/regions"
+@rendermode @(new InteractiveServerRenderMode(prerender: false))
+@attribute [StreamRendering]
+
+@using BlazorApp.Bootstrap.Data.Domain
+@using BlazorApp.Bootstrap.Data.Dtos
+@using BlazorApp.Bootstrap.Data.Infrastructure
+@using BlazorApp.Bootstrap.Business.Queries
+@using BlazorApp.Bootstrap.Navs.Components.Shared
+
+@inject QueryRunner Queries
+
+<h3>Regions</h3>
+
+<WaitSpinner @ref="IsLoadingRef" IsLoading="false"></WaitSpinner>
+<PageMessages @ref="PageMessage"></PageMessages>
+
+<div class="row">
+    <div class="col-lg-8 col-md-6 col-sm-12">
+        <div class="card shadow p-3 mb-5 bg-body rounded">
+            <div class="card-header">Regions</div>
+            <div class="card-body ">
+
+                @* <InputSelect multiple class="form-select form-select-sm" aria-label="Filter by Activity Type" @bind-value="SelectedRegionId">
+                    <DropDownOptions ListOptions="Regions"></DropDownOptions>
+                </InputSelect> *@
+
+                @foreach (var region in Regions)
+                {
+                    <div class="row col-12 form-control" @onclick="() => ShowEditorClick(region.Id)">
+                        <span>@region.Id</span>
+                        <span>@region.RegionName</span>
+                        <span>@region.ModifiedOn.ToString("yyyy-MM-dd HH:mm:ss")</span>
+                    </div>
+                }
+@* 
+                <table class="table table-active table-responsive">
+                    <thead>
+                        <tr class="">
+                            <th>Id</th>
+                            <th>Region</th>
+                            <th>ModifiedOn</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Regions != null && Regions.Count > 0)
+                        {
+                            foreach (var region in Regions)
+                            {
+                                <tr onclick="EditRegion(@region)">
+                                    <td>@region.Id</td>
+                                    <td>
+                                        <InputText class="form-control" Value="@region.RegionName" ValueExpression="@(() => region.RegionName)" placeholder="Region Name" ValueChanged="RegionNameOnChange" reqadonly />
+                                    </td>
+                                    <td>@region.ModifiedOn.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="3">No regions found.</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table> *@
+            </div>
+            <div class="card-footer">
+                @if (IsLoading)
+                {
+                    <p>loading...</p>
+                }
+                else
+                {
+                    <button class="btn btn-primary" @onclick="ReloadClick">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z" />
+                            <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466" />
+                        </svg>
+                        Reload
+                    </button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (EditorShow)
+{
+    <div class="modal show" tabindex="-1" role="dialog" style="display:block; overflow-y: auto;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Region</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="EditorCloseClick">                    </button>
+                </div>
+                <div class="modal-body">
+                    
+                        <p>@EditData?.Id</p>
+                        <p>@EditData?.RegionName</p>
+                        <p>@EditData?.ModifiedOn</p>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" @onclick="SaveClick">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy" viewBox="0 0 16 16">
+                            <path d="M11 2H9v3h2z" />
+                            <path d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v4.5A1.5 1.5 0 0 1 11.5 7h-7A1.5 1.5 0 0 1 3 5.5V1H1.5a.5.5 0 0 0-.5.5m3 4a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V1H4zM3 15h10v-4.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5z" />
+                        </svg>
+                        Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-backdrop fade show"></div>
+}
+
+
+@code {
+    private bool IsLoading = true;
+    private bool EditorShow = false;
+
+    private WaitSpinner IsLoadingRef = null!;
+    private PageMessages PageMessage = null!;
+
+    //private List<SelectLitsDto> Regions { get; set; } = new List<SelectLitsDto>();
+    private List<RegionDto> Regions { get; set; } = new List<RegionDto>();
+    private string SelectedRegionId { get; set; } = "-1";
+
+    private RegionDto? EditData { get; set; } = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetFilterOptions();
+        await base.OnInitializedAsync();
+    }
+
+    private async Task GetFilterOptions()
+    {
+        IsLoadingRef?.Show();
+        try
+        {
+            await Task.Delay(5000);
+            //Regions = await Queries.Get<Region, SelectLitsDto>(new GetRegionsQuery());
+            Regions = await Queries.Get<Region, RegionDto>(new GetRegionsQuery());
+        }
+        catch (Exception ex)
+        {
+            PageMessage?.ShowError(ex.Message);
+        }
+        finally
+        {
+            IsLoading = false;
+            IsLoadingRef?.Hide();
+        }
+
+    }  
+
+    private void ShowEditorClick(long id)
+    {
+        PageMessage?.ShowInfo($"{id} region selected.");
+
+        EditData = Regions.FirstOrDefault(w => w.Id == id);
+
+        EditorShow = true;
+        StateHasChanged();
+    }
+
+    private async Task ReloadClick()
+    {
+        await GetFilterOptions();
+    }
+
+    private void EditorCloseClick() => EditorShow = false;
+
+    private async Task SaveClick()
+    {
+        EditorShow = false;
+
+        StateHasChanged();
+    }
+
+}
