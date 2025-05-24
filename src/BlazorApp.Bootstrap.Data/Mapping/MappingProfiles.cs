@@ -17,6 +17,8 @@ namespace BlazorApp.Bootstrap.Data.Mapping
                 .ForMember(d => d.Value, m => m.MapFrom(c => c.Id.ToString()))
                 .ForMember(d => d.DisplayText, m => m.MapFrom(c => c.RegionName));
 
+            CreateMap<Region, RegionDto>();
+
             //CreateMap<Activity, ActivityDto>()
             //    .ForMember(d => d.ActivityType, m => m.MapFrom(c => c.ActivityType.Name));
         }

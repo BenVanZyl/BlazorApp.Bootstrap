@@ -1,0 +1,52 @@
+﻿
+@if (!string.IsNullOrEmpty(Message))
+{
+    <div class="modal show" tabindex="-1" role="dialog" style="display:block; overflow-y: auto;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@Title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="Clear"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex align-items-center">
+                        <strong role="status">@Message</strong>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    &nbsp;
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-backdrop fade show"></div>
+}
+
+@code {
+
+    [Parameter]
+    public string Title { get; set; } = string.Empty;
+
+    [Parameter]
+    public string Message { get; set; } = string.Empty;
+
+    public void Show(string message)
+    {
+        Message = message;
+        StateHasChanged();
+    }
+
+    public void Show(string message, string title)
+    {
+        Title = title;
+        Message = message;
+        StateHasChanged();
+    }
+
+    public void Clear()
+    {
+        Message = string.Empty;
+        StateHasChanged();
+    }
+
+}

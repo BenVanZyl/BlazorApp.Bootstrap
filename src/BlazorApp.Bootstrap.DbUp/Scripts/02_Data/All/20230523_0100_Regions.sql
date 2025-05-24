@@ -1,6 +1,6 @@
 ﻿Begin
 
-	Declare @data table ([RegionID] [int] NOT NULL, [RegionDescription] [nchar](50) NOT NULL)
+	Declare @data table ([RegionID] [int] NOT NULL, [RegionDescription] [varchar](50) NOT NULL)
 	Insert into @data(RegionID, RegionDescription) Values
 		(1,	'Eastern'),                                           
 		(2,	'Western'),                                          
@@ -9,11 +9,11 @@
 
 	SET IDENTITY_INSERT dbo.Region ON
 
-	Insert Into dbo.Region (RegionID, RegionDescription)
-		Select d.RegionID, d.RegionDescription
+	Insert Into dbo.Region (Id, RegionName, CreatedOn, ModifiedOn)
+		Select d.RegionID, d.RegionDescription, GetDate(), GetDate()
 		From @data d
 		Where NOT EXISTS(
-				Select 1 From dbo.Region r Where r.RegionID = d.RegionID
+				Select 1 From dbo.Region r Where r.Id = d.RegionID
 		)
 
 	SET IDENTITY_INSERT dbo.Region OFF

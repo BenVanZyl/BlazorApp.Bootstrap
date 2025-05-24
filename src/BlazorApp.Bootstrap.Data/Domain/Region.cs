@@ -12,6 +12,12 @@ namespace BlazorApp.Bootstrap.Data.Domain
         public DateTime CreatedOn { get; private set; }
         public DateTime ModifiedOn { get; private set; }
 
+        public bool Save(string regionName)
+        {
+            RegionName = regionName;
+            ModifiedOn = DateTime.Now;
+            return true;
+        }
 
         #region Configuration
         internal class Mapping : IEntityTypeConfiguration<Region>

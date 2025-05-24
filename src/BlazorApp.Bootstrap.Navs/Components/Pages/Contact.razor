@@ -1,137 +1,24 @@
 ﻿@page "/contact"
 @using BlazorApp.Bootstrap.Data.Dtos
 
-<h3>Contact</h3>
 
 <div class="row">
 
     <div class="col-lg-6 col-md-6 col-sm-12">
         <div class="card shadow p-3 mb-5 bg-body rounded">
-            <div class="card-header">Contact Form 1</div>
+            <div class="card-header"><h3>Contact</h3></div>
             <div class="card-body">
+                <p><strong>[wip]</strong></p>
+                <p>
+                    <strong>W</strong>ork &nbsp;
+                    <strong>I</strong>n &nbsp;
+                    <strong>P</strong>rogress &nbsp;
+                </p>
 
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content. Fill in and submit form.</p>
+                <p>You could try to contact me through GitHub.</p>
 
-                <EditForm Model="@Data1" OnValidSubmit="HandleValidSubmit1">
-                    <DataAnnotationsValidator />
-                    @* <ValidationSummary /> *@
-
-                    <div class="row">
-                        <div class="cols-12">
-                            <label class="form-label">Name:</label>
-                            <InputText @bind-Value="Data1.SenderName" class="form-control" placeholder="Example input placeholder" />
-                            <ValidationMessage For="@(() => Data1.SenderName)" />
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="cols-12">
-                            <label class="form-label">Message:</label>
-                            <InputText @bind-Value="Data1.Message" class="form-control" placeholder="Example input placeholder" />
-                            <ValidationMessage For="@(() => Data1.Message)" />
-                        </div>
-                    </div>
-                    <br />
-                    <div class="row">
-                        <div class="cols-12">
-                            <button type="submit"> Save </button>
-                            <button @onclick="HandleClear1"> Clear </button>
-                        </div>
-                    </div>
-                </EditForm>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-lg-6 col-md-6 col-sm-12">
-        <div class="card shadow p-3 mb-5 bg-body rounded">
-            <div class="card-header">Contact Form 2</div>
-            <div class="card-body">
-
-                <EditForm Model="@Data2" OnValidSubmit="HandleValidSubmit2">
-                    <DataAnnotationsValidator />
-                    <ValidationSummary />
-
-                    <div class="row">
-                        <div class="col-3 form-label">
-                            Name:
-                        </div>
-                        <div class="col-9">
-                            <InputText @bind-Value="Data2.SenderName" class="form-control" placeholder="Example input placeholder" />
-                        </div>
-                    </div>
-                    
-                    <div class="row">
-                        <div class="col-3 form-label">
-                            Message:
-                        </div>
-                        <div class="col-9">
-                            <InputText @bind-Value="Data2.Message" class="form-control" placeholder="Example input placeholder" />
-                        </div>
-                    </div>
-                    <br />
-                    <div class="row">
-                        <div class="col-3 form-label">       
-                        </div>
-                        <div class="col-9">
-                            <button type="submit"> Save </button>
-                            <button @onclick="HandleClear2"> Clear </button>
-                        </div>
-                    </div>
-
-                </EditForm>
+                <p>https://github.com/BenVanZyl/</p>
             </div>
         </div>
     </div>
 </div>
-
-<div class="row">
-    <div class="col-sm-12">
-        <div class="card shadow p-3 mb-5 bg-body rounded">
-            <div class="card-header">Response</div>
-            <div class="card-body">
-                <br />
-                <p class="card-text alert alert-primary">@Response</p>
-                <br />
-                <button @onclick="HandleClearAll">Clear All</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-@code {
-    private ContactDto Data1 { get; set; } = new();
-
-    private ContactDto Data2 { get; set; } = new();
-
-    private string Response { get; set; } = string.Empty;
-
-    private void HandleValidSubmit1()
-    {
-        Response = $"Saved 1: {Data1.SenderName}, {Data1.Message}";
-    }
-
-    private void HandleValidSubmit2()
-    {
-        Response = $"Saved 2: {Data2.SenderName}, {Data2.Message}";
-    }
-
-    private void HandleClearAll ()
-    {
-        Response = string.Empty;
-        Data1 = new();
-        Data2 = new();
-    }
-
-    private void HandleClear1()
-    {
-        Response = string.Empty;
-        Data1 = new();
-    }
-
-    private void HandleClear2()
-    {
-        Response = string.Empty;
-        Data2 = new();
-    }
-}

@@ -1,0 +1,36 @@
+﻿
+@if (!string.IsNullOrEmpty(Message))
+{
+    <div class="alert @AlertTypeClass">
+        @Message
+    </div>
+}
+
+@code {
+    [Parameter]
+    public string Message { get; set; } = string.Empty;
+
+    [Parameter]
+    public string AlertTypeClass { get; set; } = string.Empty;
+
+    public void ShowInfo(string message)
+    {
+        Message = message;
+        AlertTypeClass = "alert-info";
+        StateHasChanged();
+    }
+
+    public void ShowWarning(string message)
+    {
+        Message = message;
+        AlertTypeClass = "alert-warning";
+        StateHasChanged();
+    }
+
+    public void ShowError(string message)
+    {
+        Message = message;
+        AlertTypeClass = "alert-danger";
+        StateHasChanged();
+    }
+}
