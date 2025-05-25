@@ -2,6 +2,8 @@
 // TODO: Move to SnowStorm component
 
 
+// Ignore Spelling: Queryable Blazor App
+
 namespace BlazorApp.Bootstrap.Data.Infrastructure
 {
     public interface IQueryableProvider

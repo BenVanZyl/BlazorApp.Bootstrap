@@ -1,9 +1,9 @@
 using BlazorApp.Bootstrap.Data.Infrastructure;
-using BlazorApp.Bootstrap.Navs.Components;
+using BlazorApp.Bootstrap.Ui.Components;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
-namespace BlazorApp.Bootstrap.Navs
+namespace BlazorApp.Bootstrap.Ui
 {
     public class Program
     {

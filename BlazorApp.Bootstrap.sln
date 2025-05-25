@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorApp.Bootstrap.Navs", "src\BlazorApp.Bootstrap.Navs\BlazorApp.Bootstrap.Navs.csproj", "{658BC4A4-5058-4289-A03D-02F382158C62}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorApp.Bootstrap.Ui", "src\BlazorApp.Bootstrap.Ui\BlazorApp.Bootstrap.Ui.csproj", "{658BC4A4-5058-4289-A03D-02F382158C62}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorApp.Bootstrap.Data", "src\BlazorApp.Bootstrap.Data\BlazorApp.Bootstrap.Data.csproj", "{8EE9A393-1A04-404A-BCC0-E7FC64F47CDC}"
 EndProject

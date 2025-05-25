@@ -1,4 +1,4 @@
-﻿using BlazorApp.Bootstrap.Navs;
+﻿using BlazorApp.Bootstrap.Ui;
 using BlazorApp.Bootstrap.Testing.Infrastrcuture.Database;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;

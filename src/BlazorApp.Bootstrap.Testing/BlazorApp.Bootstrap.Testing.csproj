@@ -36,7 +36,7 @@
     <ProjectReference Include="..\BlazorApp.Bootstrap.Business\BlazorApp.Bootstrap.Business.csproj" />
     <ProjectReference Include="..\BlazorApp.Bootstrap.Data\BlazorApp.Bootstrap.Data.csproj" />
     <ProjectReference Include="..\BlazorApp.Bootstrap.DbUp\BlazorApp.Bootstrap.DbUp.csproj" />
-    <ProjectReference Include="..\BlazorApp.Bootstrap.Navs\BlazorApp.Bootstrap.Navs.csproj" />
+    <ProjectReference Include="..\BlazorApp.Bootstrap.Ui\BlazorApp.Bootstrap.Ui.csproj" />
   </ItemGroup>
 
 </Project>

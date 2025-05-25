@@ -1,5 +1,4 @@
-﻿
-@if (!string.IsNullOrEmpty(Message))
+﻿@if (!string.IsNullOrEmpty(Message))
 {
     <div class="alert @AlertTypeClass">
         @Message
@@ -31,6 +30,25 @@
     {
         Message = message;
         AlertTypeClass = "alert-danger";
+        StateHasChanged();
+    }
+
+    public void ShowError(List<Exception>? errors )
+    {
+        if (errors == null || !errors.Any())
+        {
+            ShowError("An unknown error occurred.");
+            return;
+        }
+        Message = string.Join("<br/>", errors.Select(e => e.Message));
+        AlertTypeClass = "alert-danger";
+        StateHasChanged();
+    }
+
+    public void Clear()
+    {
+        Message = string.Empty;
+        AlertTypeClass = string.Empty;
         StateHasChanged();
     }
 }

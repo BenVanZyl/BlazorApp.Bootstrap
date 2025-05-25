@@ -2,7 +2,7 @@
 using BlazorApp.Bootstrap.Data.Infrastructure;
 using BlazorApp.Bootstrap.Data.Infrastructure.QueryResults;
 
-namespace BlazorApp.Bootstrap.Business.Queries
+namespace BlazorApp.Bootstrap.Business.Queries.Regions
 {
     public class GetRegionsQuery : IQueryResultList<Region>
     {

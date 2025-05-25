@@ -1,9 +1,8 @@
-﻿using Microsoft.Data.SqlClient;
-using System;
-using System.IO;
-using System.Linq;
+﻿// Ignore Spelling: Blazor App
 
-namespace BlazorApp.Bootstrap.Testing.Infrastrcuture.Database
+using Microsoft.Data.SqlClient;
+
+namespace BlazorApp.Bootstrap.Testing.Infrastructure.Database
 {
     internal class DbCleanup
     {
@@ -22,7 +21,7 @@ namespace BlazorApp.Bootstrap.Testing.Infrastrcuture.Database
         public void Execute()
         {
             //define command object
-            SqlCommand cmd = null;
+            SqlCommand? cmd = null;
 
             try
             {
@@ -66,7 +65,7 @@ namespace BlazorApp.Bootstrap.Testing.Infrastrcuture.Database
             var assembly = AppDomain.CurrentDomain.GetAssemblies().First(w => !string.IsNullOrEmpty(w.FullName) && w.FullName.Contains("Tests"));
             string scriptName = assembly.GetManifestResourceNames().First(w => w.EndsWith("DbCleanupScript.sql"));
 
-            using Stream stream = assembly.GetManifestResourceStream(scriptName);
+            using Stream? stream = assembly.GetManifestResourceStream(scriptName);
             if (stream == null)
                 return "";
 
