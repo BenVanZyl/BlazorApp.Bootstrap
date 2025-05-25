@@ -8,7 +8,7 @@ namespace BlazorApp.Bootstrap.DbUp
     {
         private readonly string _connectionString;
 
-        public ScriptExecutor(string[] args)  //todo:... change to command line options.
+        public ScriptExecutor(string[] args)  //TODO:... change to command line options.
         {
             if (args.Count() == 1)
                 _connectionString = args[0];
@@ -116,7 +116,7 @@ namespace BlazorApp.Bootstrap.DbUp
 
         #region console 
 
-        private void Write(string msg) => Console.WriteLine($"Performing updgrade: {msg}");
+        private void Write(string msg) => Console.WriteLine($"Performing upgrade: {msg}");
 
         private void Write(string msg, ConsoleColor color)
         {

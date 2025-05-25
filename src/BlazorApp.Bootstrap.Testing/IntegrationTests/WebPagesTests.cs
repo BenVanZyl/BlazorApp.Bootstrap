@@ -1,5 +1,7 @@
-﻿using BlazorApp.Bootstrap.Navs.Components.Layout;
-using BlazorApp.Bootstrap.Navs.Components.Pages;
+﻿// Ignore Spelling: Nav Blazor App
+
+using BlazorApp.Bootstrap.Ui.Components.Layout;
+using BlazorApp.Bootstrap.Ui.Components.Pages;
 using BlazorApp.Bootstrap.Testing.Infrastrcuture;
 using Bunit;
 using System;
@@ -26,22 +28,21 @@ namespace BlazorApp.Bootstrap.Testing.IntegrationTests
         }
 
         [Theory]
+        [InlineData("home")]
         [InlineData("about")]
-        [InlineData("activities")]
         [InlineData("contact")]
-        [InlineData("")]
+        [InlineData("weather-forecasts")]
+        [InlineData("regions")]
+        [InlineData("play-page")]
         public void NavBarTopTest(string navPath)
         {
             // Arrange: render the Home.razor component
             var cut = RenderComponent<NavBarTop>();
+
             // Wait for the component to finish rendering
             cut.WaitForState(() => cut.FindAll("nav").Count > 0);
 
-            // Act: find and click the <button> element to increment 
-            // the counter in the <p> element
-            //cut.Find("button").Click();
-
-            // Assert: find the h1 element and check its content
+            // Assert: find the nav element and check its content
             cut.Find("nav").InnerHtml.Contains($"href=\"{navPath}\"");
         }
     }

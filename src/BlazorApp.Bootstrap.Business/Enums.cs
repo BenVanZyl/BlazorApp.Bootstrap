@@ -2,7 +2,9 @@
 {
     public enum ManageActions
     {
+        Add,
         Save,
+        Update,
         Delete
     }
 

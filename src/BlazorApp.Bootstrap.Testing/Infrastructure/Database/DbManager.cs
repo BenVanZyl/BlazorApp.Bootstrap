@@ -1,11 +1,6 @@
 ﻿using BlazorApp.Bootstrap.DbUp;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace BlazorApp.Bootstrap.Testing.Infrastrcuture.Database
+namespace BlazorApp.Bootstrap.Testing.Infrastructure.Database
 {
     /// <summary>
     /// Using DbUp to spin up database and run scripts.

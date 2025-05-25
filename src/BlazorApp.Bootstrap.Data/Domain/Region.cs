@@ -1,6 +1,8 @@
-﻿using BlazorApp.Bootstrap.Data.Infrastructure.DomainEntities;
+﻿using BlazorApp.Bootstrap.Data.Dtos;
+using BlazorApp.Bootstrap.Data.Infrastructure.DomainEntities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Runtime.InteropServices;
 
 namespace BlazorApp.Bootstrap.Data.Domain
 {
@@ -11,6 +13,18 @@ namespace BlazorApp.Bootstrap.Data.Domain
         public string RegionName { get; private set; }
         public DateTime CreatedOn { get; private set; }
         public DateTime ModifiedOn { get; private set; }
+
+        public static Region Create(RegionDto data)
+        {
+            return new Region(data.RegionName);
+        }
+
+        private Region(string regionName)
+        {
+            RegionName = regionName;
+            CreatedOn = DateTime.Now;
+            ModifiedOn = DateTime.Now;
+        }
 
         public bool Save(string regionName)
         {

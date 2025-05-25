@@ -1,27 +1,28 @@
-﻿using AutoMapper;
+﻿// Ignore Spelling: App Blazor Dto
+
+using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using BlazorApp.Bootstrap.Data.Infrastructure.DomainEntities;
 using BlazorApp.Bootstrap.Data.Infrastructure.QueryResults;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 // TODO: Move to SnowStorm component
 
 namespace BlazorApp.Bootstrap.Data.Infrastructure
 {
-    public class QueryRunner(ILogger<QueryRunner> logger, IServiceProvider serviceProvider, IQueryableProvider queryableProvider, IMapper mapper)
+    public class QueryRunner(ILogger<QueryRunner> logger, DataContext dbContext, IQueryableProvider queryableProvider, IMapper mapper)
     {
         private readonly ILogger<QueryRunner> _logger = logger;
-        private readonly IServiceProvider _serviceProvider = serviceProvider;
-        //private readonly DataContext _dbcontext = dbcontext;
+        //private readonly IServiceProvider _serviceProvider = serviceProvider;
+        private readonly DataContext _dbContext = dbContext;
         private readonly IQueryableProvider _queryableProvider = queryableProvider;
         private readonly IMapper _mapper = mapper;
 
-        private DataContext CreateDbContext()
-        {
-            return _serviceProvider.GetRequiredService<DataContext>();
-        }
+        //private DataContext CreateDbContext()
+        //{
+        //    return _serviceProvider.GetRequiredService<DataContext>();
+        //}
 
         public async Task<T> Get<T>(IQueryResultSingle<T> query, bool defaultIfMissing = true) where T : class, IDomainEntity
         {
@@ -62,7 +63,7 @@ namespace BlazorApp.Bootstrap.Data.Infrastructure
 
         public async Task<List<T>> Get<T>(IQueryResultList<T> query) where T : class, IDomainEntity
         {
-            using var dbContext = CreateDbContext();
+            //using var dbContext = CreateDbContext();
             try
             {
                 return await query.Get(_queryableProvider).ToListAsync();
@@ -88,10 +89,11 @@ namespace BlazorApp.Bootstrap.Data.Infrastructure
             }
         }
 
+
         public async Task<T> GetById<T>(long id) where T : DomainEntityWithId
         {
             var stopwatch = new System.Diagnostics.Stopwatch();
-            using var _dbContext = CreateDbContext();
+            //using var _dbContext = CreateDbContext();
             try
             {
                 stopwatch.Start();
@@ -112,7 +114,7 @@ namespace BlazorApp.Bootstrap.Data.Infrastructure
         public async Task<T> GetById<T>(string id) where T : DomainEntityWithIdString
         {
             var stopwatch = new System.Diagnostics.Stopwatch();
-            using var _dbContext = CreateDbContext();
+            //using var _dbContext = CreateDbContext();
             try
             {
                 stopwatch.Start();
@@ -130,5 +132,49 @@ namespace BlazorApp.Bootstrap.Data.Infrastructure
             }
         }
 
+        public async Task Update<T>(IQueryResult<T> query) where T : class, IDomainEntity
+        {
+            try
+            {
+                await query.Update(_queryableProvider);
+            }
+            catch (Exception ex)
+            {
+                string message = $"Error: QueryRunner.Update<T>(IQueryResult<T>...) [DbSet<t>().Where().ExecuteAsync()]: {ex.Message} ";
+                _logger?.LogError(ex, message);
+                throw;
+            }
+        }
+
+        public async Task Delete<T>(IQueryResult<T> query) where T : class, IDomainEntity
+        {
+            try
+            {
+                await query.Delete(_queryableProvider);
+            }
+            catch (Exception ex)
+            {
+                string message = $"Error: QueryRunner.Update<T>(IQueryResult<T>...) [DbSet<t>().Where().ExecuteAsync()]: {ex.Message} ";
+                _logger?.LogError(ex, message);
+                throw;
+            }
+        }
+
+        public async Task Add<T>(T entity, bool autoSave = true) where T : class, IDomainEntity
+        {
+            try
+            {
+                await _dbContext.Set<T>().AddAsync(entity);
+                if (autoSave)
+                    await _dbContext.SaveChangesAsync();
+                
+            }
+            catch (Exception ex)
+            {
+                string message = $"Error: QueryRunner.Add() : {ex.Message} ";
+                _logger?.LogError(ex, message);
+                throw;
+            }
+        }
     }
 }
