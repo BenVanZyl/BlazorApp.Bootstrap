@@ -1,7 +1,7 @@
 ﻿using Bunit;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BlazorApp.Bootstrap.Testing.Infrastrcuture
+namespace BlazorApp.Bootstrap.Testing.Infrastructure
 {
     [Collection("All Tests Complete")]
     public class BaseIntegrationTests : TestContext

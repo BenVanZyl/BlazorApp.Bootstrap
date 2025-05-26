@@ -10,7 +10,7 @@ namespace BlazorApp.Bootstrap.Data.Domain
     {
         protected Region() { }
 
-        public string RegionName { get; private set; }
+        public string RegionName { get; private set; } = null!;
         public DateTime CreatedOn { get; private set; }
         public DateTime ModifiedOn { get; private set; }
 

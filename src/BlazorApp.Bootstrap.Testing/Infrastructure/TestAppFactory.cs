@@ -1,9 +1,9 @@
 ﻿using BlazorApp.Bootstrap.Ui;
-using BlazorApp.Bootstrap.Testing.Infrastrcuture.Database;
+using BlazorApp.Bootstrap.Testing.Infrastructure.Database;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 
-namespace BlazorApp.Bootstrap.Testing.Infrastrcuture
+namespace BlazorApp.Bootstrap.Testing.Infrastructure
 {
     public class TestAppFactory : WebApplicationFactory<Program>
     {

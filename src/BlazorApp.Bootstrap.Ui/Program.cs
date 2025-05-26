@@ -20,7 +20,8 @@ namespace BlazorApp.Bootstrap.Ui
             builder.Services.AddSnowStorm(dataConnectionString);
 
             // commands - mediatR
-            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+            var businessAssembly = Assembly.Load("BlazorApp.Bootstrap.Business");
+            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(businessAssembly));            
 
             var app = builder.Build();
 

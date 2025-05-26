@@ -132,7 +132,24 @@ namespace BlazorApp.Bootstrap.Data.Infrastructure
             }
         }
 
-        public async Task Update<T>(IQueryResult<T> query) where T : class, IDomainEntity
+        public async Task Add<T>(T entity, bool autoSave = true) where T : class, IDomainEntity
+        {
+            try
+            {
+                await _dbContext.Set<T>().AddAsync(entity);
+                if (autoSave)
+                    await _dbContext.SaveChangesAsync();
+                
+            }
+            catch (Exception ex)
+            {
+                string message = $"Error: QueryRunner.Add() : {ex.Message} ";
+                _logger?.LogError(ex, message);
+                throw;
+            }
+        }
+
+        public async Task Update<T>(IQueryResultSingle<T> query) where T : class, IDomainEntity
         {
             try
             {
@@ -146,7 +163,7 @@ namespace BlazorApp.Bootstrap.Data.Infrastructure
             }
         }
 
-        public async Task Delete<T>(IQueryResult<T> query) where T : class, IDomainEntity
+        public async Task Delete<T>(IQueryResultSingle<T> query) where T : class, IDomainEntity
         {
             try
             {
@@ -155,23 +172,6 @@ namespace BlazorApp.Bootstrap.Data.Infrastructure
             catch (Exception ex)
             {
                 string message = $"Error: QueryRunner.Update<T>(IQueryResult<T>...) [DbSet<t>().Where().ExecuteAsync()]: {ex.Message} ";
-                _logger?.LogError(ex, message);
-                throw;
-            }
-        }
-
-        public async Task Add<T>(T entity, bool autoSave = true) where T : class, IDomainEntity
-        {
-            try
-            {
-                await _dbContext.Set<T>().AddAsync(entity);
-                if (autoSave)
-                    await _dbContext.SaveChangesAsync();
-                
-            }
-            catch (Exception ex)
-            {
-                string message = $"Error: QueryRunner.Add() : {ex.Message} ";
                 _logger?.LogError(ex, message);
                 throw;
             }

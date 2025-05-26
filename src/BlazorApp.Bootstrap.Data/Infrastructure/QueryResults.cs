@@ -4,12 +4,6 @@
 
 namespace BlazorApp.Bootstrap.Data.Infrastructure.QueryResults
 {
-    public interface IQueryResult<T>
-    {
-        Task Update(IQueryableProvider queryableProvider);
-
-        Task Delete(IQueryableProvider queryableProvider);
-    }
 
     public interface IQueryResultList<out T> where T : class, IDomainEntity
     {
@@ -19,5 +13,9 @@ namespace BlazorApp.Bootstrap.Data.Infrastructure.QueryResults
     public interface IQueryResultSingle<out T> where T : class, IDomainEntity
     {
         IQueryable<T> Get(IQueryableProvider queryableProvider);
+
+        Task Update(IQueryableProvider queryableProvider);
+
+        Task Delete(IQueryableProvider queryableProvider);
     }
 }
