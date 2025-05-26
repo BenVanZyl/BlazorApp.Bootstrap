@@ -1,6 +1,7 @@
-﻿using BlazorApp.Bootstrap.Testing.Infrastrcuture.Database;
+﻿
+using BlazorApp.Bootstrap.Testing.Infrastructure.Database;
 
-namespace BlazorApp.Bootstrap.Testing.Infrastrcuture
+namespace BlazorApp.Bootstrap.Testing.Infrastructure
 {
     public class AllTestsCompleteFixture : IDisposable
     {

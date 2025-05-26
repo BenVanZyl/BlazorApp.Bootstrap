@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BlazorApp.Bootstrap.Business.Queries.Regions
 {
-    public class ManageRegionQuery(RegionDto data) : IQueryResult<Region>
+    public class RegionQueries(RegionDto data) : IQueryResultSingle<Region>
     {
         private readonly RegionDto _data = data;
 
@@ -17,6 +17,14 @@ namespace BlazorApp.Bootstrap.Business.Queries.Regions
             var query = await queryableProvider.Query<Region>()
                 .Where(w => w.Id == _data.Id)
                 .ExecuteDeleteAsync();
+        }
+
+        public IQueryable<Region> Get(IQueryableProvider queryableProvider)
+        {
+            var query = queryableProvider.Query<Region>()
+                .Where(w => w.Id == _data.Id);
+
+            return query;
         }
 
         public async Task Update(IQueryableProvider queryableProvider)

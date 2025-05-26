@@ -2,7 +2,7 @@
 
 using BlazorApp.Bootstrap.Ui.Components.Layout;
 using BlazorApp.Bootstrap.Ui.Components.Pages;
-using BlazorApp.Bootstrap.Testing.Infrastrcuture;
+using BlazorApp.Bootstrap.Testing.Infrastructure;
 using Bunit;
 using System;
 using System.Collections.Generic;

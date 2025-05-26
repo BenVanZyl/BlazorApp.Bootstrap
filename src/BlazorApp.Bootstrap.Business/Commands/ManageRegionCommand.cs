@@ -3,11 +3,6 @@ using BlazorApp.Bootstrap.Data.Domain;
 using BlazorApp.Bootstrap.Data.Dtos;
 using BlazorApp.Bootstrap.Data.Infrastructure;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlazorApp.Bootstrap.Business.Commands
 {
@@ -42,12 +37,12 @@ namespace BlazorApp.Bootstrap.Business.Commands
                         break;
 
                     case ManageActions.Update:
-                        await _queries.Update(new ManageRegionQuery(request.Data));
+                        await _queries.Update(new RegionQueries(request.Data));
                         break;
 
                     case ManageActions.Delete:
                         if (value != null)
-                            await _queries.Delete(new ManageRegionQuery(request.Data));
+                            await _queries.Delete(new RegionQueries(request.Data));
                         else
                             throw new NullReferenceException("Delete failed. Record does not exist.");
                         break;
