@@ -8,22 +8,19 @@ namespace BlazorApp.Bootstrap.Data.Domain
 {
     public class Region : DomainEntityWithId
     {
-        protected Region() { }
-
         public string RegionName { get; private set; } = null!;
         public DateTime CreatedOn { get; private set; }
         public DateTime ModifiedOn { get; private set; }
 
-        public static Region Create(RegionDto data)
-        {
-            return new Region(data.RegionName);
-        }
 
-        private Region(string regionName)
+        #region
+
+        protected Region() { }
+
+        public Region(string regionName)
         {
-            RegionName = regionName;
+            Save(regionName);
             CreatedOn = DateTime.Now;
-            ModifiedOn = DateTime.Now;
         }
 
         public bool Save(string regionName)
@@ -33,6 +30,8 @@ namespace BlazorApp.Bootstrap.Data.Domain
             return true;
         }
 
+
+        #endregion
         #region Configuration
         internal class Mapping : IEntityTypeConfiguration<Region>
         {

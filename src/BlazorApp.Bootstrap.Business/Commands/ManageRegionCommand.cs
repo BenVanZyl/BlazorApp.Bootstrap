@@ -10,6 +10,8 @@ namespace BlazorApp.Bootstrap.Business.Commands
     {
         public RegionDto Data { get; set; } = data;
         public ManageActions? Action { get; set; } = ManageActions.Update;
+
+        public ManageRegionCommand Create() { Action = ManageActions.Add; return this; }
         public ManageRegionCommand Update() { Action = ManageActions.Update; return this; }
         public ManageRegionCommand Delete() { Action = ManageActions.Delete; return this; }
     }
@@ -28,12 +30,11 @@ namespace BlazorApp.Bootstrap.Business.Commands
                 if (request.Data == null)
                     throw new NullReferenceException("Action failed. Record does not exist.");
 
-                Region? value = null;
+                Region? region = null;
                 switch (request.Action)
                 {
                     case ManageActions.Add:
-                        value = Region.Create(request.Data);
-                        await _queries.Add(value);
+                        region = await _queries.Add<Region>(new Region(request.Data.RegionName));
                         break;
 
                     case ManageActions.Update:
@@ -41,17 +42,15 @@ namespace BlazorApp.Bootstrap.Business.Commands
                         break;
 
                     case ManageActions.Delete:
-                        if (value != null)
                             await _queries.Delete(new RegionQueries(request.Data));
-                        else
-                            throw new NullReferenceException("Delete failed. Record does not exist.");
                         break;
 
                     default:
                         throw new NullReferenceException("Invalid action specified.");
                 }
 
-                results.Id = value != null ? value.Id : -1;
+                results.Data = region;
+                results.Id = region != null ? region.Id : -1;
 
             }
             catch (Exception ex)
