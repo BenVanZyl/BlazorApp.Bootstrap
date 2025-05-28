@@ -132,7 +132,7 @@ namespace BlazorApp.Bootstrap.Data.Infrastructure
             }
         }
 
-        public async Task Add<T>(T entity, bool autoSave = true) where T : class, IDomainEntity
+        public async Task<T> Add<T>(T entity, bool autoSave = true) where T : class, IDomainEntity
         {
             try
             {
@@ -140,6 +140,7 @@ namespace BlazorApp.Bootstrap.Data.Infrastructure
                 if (autoSave)
                     await _dbContext.SaveChangesAsync();
                 
+                return entity;
             }
             catch (Exception ex)
             {
