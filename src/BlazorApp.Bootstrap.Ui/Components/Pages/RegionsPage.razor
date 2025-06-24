@@ -149,10 +149,12 @@
 
     private RegionDto? EditData { get; set; } = null;
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await GetFilterOptions();
-        await base.OnInitializedAsync();
+        if (firstRender)
+        {
+            await GetFilterOptions();
+        }
     }
 
     private async Task GetFilterOptions()
@@ -173,6 +175,7 @@
         {
             isLoading = false;
             IsLoadingRef?.Hide();
+            StateHasChanged();
         }
 
     }
@@ -244,6 +247,7 @@
         finally
         {
             isProcessing = false;
+            StateHasChanged();
         }
 
     }
