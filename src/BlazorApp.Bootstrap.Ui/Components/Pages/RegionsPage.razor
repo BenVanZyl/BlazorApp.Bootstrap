@@ -235,9 +235,9 @@
 
             if (results.Data != null)
                 Regions.Add((RegionDto)results.Data);
-            
+
             if (action == ManageActions.Delete && !results.HasErrors)
-                Regions.Remove(EditData); //remove item if deleted
+                Regions.Remove(Regions.First(w => w.Id == EditData.Id)); //remove item if deleted
 
             EditData = null;
             editorShow = false;

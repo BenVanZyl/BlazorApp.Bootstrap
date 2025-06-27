@@ -75,7 +75,19 @@
 
 @code {
     [Parameter]
-    public long Id { get; set; }
+    public long Id
+    {
+        get { return _id; }
+        set
+        {
+            _id = value;
+            var task = Task.Run(async () => await InvokeAsync(GetRegion));
+        }
+    }
+    private long _id = 0;
+
+    private bool _firstRenderDone = false;
+
 
     private WaitSpinner IsLoadingRef = null!;
     private PageMessages PageMessage = null!;
@@ -86,16 +98,33 @@
     {
         if (firstRender)
         {
+            _firstRenderDone = true;
             await GetRegion();
         }
     }
 
+    // private void OnValueChanged()
+    // {
+    //     var task = Task.Run(async () => await InvokeAsync(GetRegion));
+    //     task.Wait();
+    // }
+
     private async Task GetRegion()
     {
+        if (!_firstRenderDone)
+            return;
+
         try
         {
-            IsLoadingRef.Show();
+            IsLoadingRef?.Show();
 
+            if (Id == 0) // new record
+            {
+                OnAddNew();
+                return;
+            }
+
+            // get existing record
             RegionDto queryData = new() { Id = Id };
             EditData = await Queries.Get<Region, RegionDto>(new RegionQueries(queryData));
             if (EditData == null)
@@ -107,7 +136,7 @@
         }
         finally
         {
-            IsLoadingRef.Hide();
+            IsLoadingRef?.Hide();
             StateHasChanged();
         }
     }
