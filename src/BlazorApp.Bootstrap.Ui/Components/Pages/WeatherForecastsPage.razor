@@ -1,4 +1,5 @@
 ﻿@page "/weather-forecasts"
+@page "/weather-forecasts/{RegionId:long}"
 @rendermode @(new InteractiveServerRenderMode(prerender: false))
 @attribute [StreamRendering]
 
@@ -45,21 +46,33 @@
 </div>
 
 @code {
+    [Parameter]
+    public long? RegionId { get; set; } = null;
+
     private WaitSpinner IsLoadingRef = null!;
 
     private List<SelectLitsDto> Regions { get; set; } = new List<SelectLitsDto>();
 
     private string SelectedRegionId { get; set; } = "-1";
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await GetFilterOptions();
-        await base.OnInitializedAsync();
+        if (firstRender)
+        {
+            await GetFilterOptions();
+            
+        }
     }
 
     private async Task GetFilterOptions()
     {
         Regions = await Queries.Get<Region, SelectLitsDto>(new GetRegionsQuery());  
+    }
+
+    private async Task GetData()
+    {
+        //if (RegionId.HasValue) // get specific region
+        
     }
 
     private async Task EditClick()
