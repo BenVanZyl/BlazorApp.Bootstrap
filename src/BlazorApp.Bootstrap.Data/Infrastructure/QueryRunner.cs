@@ -138,8 +138,8 @@ namespace BlazorApp.Bootstrap.Data.Infrastructure
             {
                 await _dbContext.Set<T>().AddAsync(entity);
                 if (autoSave)
-                    await _dbContext.SaveChangesAsync();
-                
+                     _dbContext.SaveChanges(); // sync call as async call EF DbContext seems to cause concurrency issues 
+
                 return entity;
             }
             catch (Exception ex)

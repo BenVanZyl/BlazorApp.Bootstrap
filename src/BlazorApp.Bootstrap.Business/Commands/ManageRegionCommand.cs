@@ -35,10 +35,12 @@ namespace BlazorApp.Bootstrap.Business.Commands
                 {
                     case ManageActions.Add:
                         region = await _queries.Add<Region>(new Region(request.Data.RegionName));
+                        request.Data.Id = region.Id;
+                        request.Data = await _queries.Get<Region, RegionDto>(new RegionQueries(request.Data));
                         break;
 
                     case ManageActions.Update:
-                        await _queries.Update(new RegionQueries(request.Data));
+                        await _queries.Update<Region>(new RegionQueries(request.Data));
                         break;
 
                     case ManageActions.Delete:
@@ -49,8 +51,8 @@ namespace BlazorApp.Bootstrap.Business.Commands
                         throw new NullReferenceException("Invalid action specified.");
                 }
 
-                results.Data = region;
-                results.Id = region != null ? region.Id : -1;
+                results.Data = request.Data;
+                results.Id = request.Data != null ? request.Data.Id : -1;
 
             }
             catch (Exception ex)
